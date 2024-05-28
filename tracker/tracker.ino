@@ -1,6 +1,7 @@
 #include <Arduino_LSM6DSOX.h>
 #include <MadgwickAHRS.h>
-
+#include "antenna.h"
+#include <astronode.h>
 
 float pitch = 0.0;
 float roll = 0.0;
@@ -13,14 +14,22 @@ float yaw = 0.0;
 
 Madgwick filter;
 
+struct AntennaManager am;
+ASTRONODE astronode;
+
 unsigned long microsPerReading, microsPrevious;
 
-int samplingRate = 100; 
+int samplingRate = 1; 
 
 float accel[3], gyro[3];
 float ledState[4];
 
 void setup() {
+  am.debug = true;
+
+  if (!am.debug) {
+    am.astronode = &astronode;
+  }
 
 
   Serial.begin(9600);
@@ -40,12 +49,22 @@ void setup() {
   microsPerReading = 1000000 / samplingRate;
   microsPrevious = micros();
   filter.begin(samplingRate);
-
+  AntennaManager_init(&am);
 }
 
+unsigned long millisPrevious = 0, nextEnqueue = 10000;
+
+
 void loop() {
+  unsigned long millisNow;
   unsigned long microsNow;
   microsNow = micros();
+  millisNow = millis();
+
+  if (millisNow - millisPrevious >= nextEnqueue) {
+    AntennaManager_send_payload(&am, "Hello!");
+    millisPrevious = millisPrevious + nextEnqueue;
+  }
 
  if (microsNow - microsPrevious >= microsPerReading) {
     if (IMU.accelerationAvailable()) {
@@ -93,8 +112,8 @@ void loop() {
     Serial.print("Roll : ");
     Serial.println(roll);
     
-
     microsPrevious = microsPrevious + microsPerReading;
   }
 
+  AntennaManager_poll_events(&am);
 }
