@@ -85,6 +85,21 @@ Les messages sont directement envoyés chez Astrocast et sont accessibles direct
 
 ### Gestion de l'orientation du collier
 
+Notre première tentative pour définir l'orientation du collier était d'utiliser simplement le gyroscope. Nous nous somme ensuite rendu compte que le gyroscope ne permettait que d'avoir l'orientation entre 0 et 90 degrès, sauf que nous devions avoir une orientation sur 360 degrès.
+
+J'ai découvert qu'il était possible de calculer le roulis "roll" en utilisant les quaternions. Malheureusement, malgrès les différentes tentatives, nous sommes arrivés a rien de concluant.
+
+Nous avons donc décider d'utiliser le filtre de Madgwick. Madgwick est ce qu'on appelle un algorithme de fusion de capteurs (Fusion sensor algorithm). Ces algorithmes sont des techniques mathématiques qui combinent des données provenant de plusieurs capteurs afin de fournir une estimation plus précise et plus fiable de l'état d'un système ou d'un environnement.
+
+Le filtre de Madgwick permet de connaitre l'orientation d'un objet à l'aide du gyroscope et d'un accéléromètre. Il est aussi possible d'y ajouter les données d'un magnétomètre pour plus de précision.
+
+Nous avons utiliser l'implémentation arduino officiel [librairie](https://github.com/arduino-libraries/MadgwickAHRS) de Madgwick qui s'occupe de faire les calculs pour nous et permet de récupérer le roulis, le lacet et le tanguages (roll,yaw,pitch).
+
+Les caulcus qui se trouvent derrière sont extrêmemnt compliqués et nous n'avions clairement pas le temps d'étudier en détails le fonctionnement du filtre.
+
+Néanmoins, il est possible de lire le [papier scientifique](https://courses.cs.washington.edu/courses/cse474/17wi/labs/l4/madgwick_internal_report.pdf).
+
+
 ### Modèle de classification
 
 # Conclusion
