@@ -29,7 +29,7 @@ Ce projet fait suite à une proposition de M. Mitouassiwou, un projet similaire 
 
 La communication entre le collier et internet se fait par satellite. Le collier doit être donc équipé d'une antenne spéciale, afin de garantir que la transmission des données s'effectue correctement à chaque passe de satellite, cette antenne doit être orientée vers le haut. La première mesure pour qu'elle soit orientée vers le haut a été de mettre un système de contre-poids (voir\ Figure\ \ref{fig:collar}).
 
-![Coupe simplifiée du premier prototype de collie par l'IICT\label{fig:collar}](./figures/Collar_IICT.drawio.svg){width=40%}
+![Coupe simplifiée du premier prototype de collier par l'IICT\label{fig:collar}](./figures/Collar_IICT.drawio.svg){width=30%}
 
 Le principal problème de cette conception est que le système de contre-poids est lourd et dérange l'animal qui porte le collier et peut affecter la manière dont il se comporte.
 
@@ -38,7 +38,6 @@ Notre contribution sera donc de fournir un collier qui devra répondre aux crit�
 - Collier léger
 - Basse consommation d'énergie
 - Communication par satellite
-- 
 
 ## Équipe
 
@@ -47,6 +46,13 @@ Notre contribution sera donc de fournir un collier qui devra répondre aux crit�
 - Jarod Streckeisen : gestion de l'activation des antennes en fonction de l'orientation du dispositif (et donc du collier).
 
 # Architecture
+
+![Architecture du système\label{fig:architecture}](./figures/Architecture_IOT.drawio.svg){width=80%}
+
+L'architecture présentée en\ Figure\ \ref{fig:architecture} est celle du système dans son ensemble et comment elle pourrait être imaginée dans un cas futur.
+
+L'animal porte le collier, celui-ci transmet à des intervalles d'environ 30 minutes des nouvelles données vers le portal Astrocast en utilisant leur réseaux de satellites, les données sont calculés à partir d'un modèle directement intégré dans le dispositif RP2040.
+
 
 ## Matériel
 
@@ -70,6 +76,12 @@ L'idée de base est la suivante : installer plusieurs antennes (des patches) et 
 
 
 ### Communication Satellite
+
+Concernant la communication satellite, nous avons utlisé une librairie créée par Astrocast permettant de configurer le module Astronode et l'envoie de message.
+
+Par dessus, on a créé un wrapper permettant d'interagir avec la librairie simplement et de pouvoir tester l'envoie de message sans avoir de module Astronode connecté directement en simulant simplement l'envoie de message.
+
+Les messages sont directement envoyés chez Astrocast et sont accessibles directement sur le portal. Dans un travail futur il est envisageable de pouvoir utiliser leur API pour connecter un dashboard ou tout autre application Web.
 
 ### Gestion de l'orientation du collier
 
