@@ -102,4 +102,12 @@ Néanmoins, il est possible de lire le [papier scientifique](https://courses.cs.
 
 ### Modèle de classification
 
+Nous avons découvert qu'il est possible de faire tourner des modèle de classification sur Arduino avec par exemple la librairie [MicroFlow](https://github.com/Bobingstern/MicroFlow).
+
+Il est donc tout a fait possible d'entraîner un modèle et ensuite le faire tourner sur un RP2040. Malheureusement, nous n'avions pas les données nécessaire pour entraîner un tel modèle. Nous n'avions pas non plus les connaissances nécessaire pour construire un dataset nous même et nous avons trouver que très peu de documentation en ligne sur la possibilité de prédire un comportement animal a partir des données d'un gyroscope et d'un accéléromètre.
+
+
+
 # Conclusion
+
+Nous sommes arriver a la conclusion qu'il était tout a fait possible de construire un collier qui respecte les contrainte qui nous ont été donné. Nous avons pu avoir un système qui arrive a connaître sa rotation et envoyer des données selon son orientation. 
