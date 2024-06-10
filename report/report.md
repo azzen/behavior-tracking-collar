@@ -91,7 +91,7 @@ J'ai découvert qu'il était possible de calculer le roulis "roll" en utilisant 
 
 Nous avons donc décider d'utiliser le filtre de Madgwick. Madgwick est ce qu'on appelle un algorithme de fusion de capteurs (Fusion sensor algorithm). Ces algorithmes sont des techniques mathématiques qui combinent des données provenant de plusieurs capteurs afin de fournir une estimation plus précise et plus fiable de l'état d'un système ou d'un environnement.
 
-Le filtre de Madgwick permet de connaitre l'orientation d'un objet à l'aide du gyroscope et d'un accéléromètre. Il est aussi possible d'y ajouter les données d'un magnétomètre pour plus de précision.
+Le filtre de Madgwick utilise les données du gyroscope et de l'accéléromètre. Pour ce faire, il utilise la descente de gradient pour optimiser un quaternion qui oriente les données de l'accéléromètre par rapport à une référence connue de la gravité. Ce quaternion est pondéré et intégré au quaternion du gyroscope et à l'orientation précédente. Le résultat est normalisé et converti en angles d'Euler.
 
 Nous avons utiliser l'implémentation arduino officiel [librairie](https://github.com/arduino-libraries/MadgwickAHRS) de Madgwick qui s'occupe de faire les calculs pour nous et permet de récupérer le roulis, le lacet et le tanguages (roll,yaw,pitch).
 
