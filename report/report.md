@@ -107,26 +107,27 @@ Néanmoins, il est possible de lire le [papier](https://courses.cs.washington.ed
 Nous avons découvert qu'il est possible de faire tourner des modèles de classification sur Arduino avec par exemple la librairie [MicroFlow](https://github.com/Bobingstern/MicroFlow).
 
 Il est donc tout a fait possible d'entraîner un modèle et ensuite le faire tourner sur un RP2040. 
-Malheureusement, nous n'avions pas les connaissances nécessaire pour construire un dataset nous même et nous avons trouver que très peu de documentation en ligne sur la possibilité de prédire un comportement animal a partir des données d'un gyroscope et d'un accéléromètre.
+Malheureusement, nous n'avions pas les connaissances nécessaire pour construire un dataset nous même et nous avons trouvé que très peu de documentation en ligne sur la possibilité de prédire un comportement animal a partir des données d'un gyroscope et d'un accéléromètre.
 
 Toutefois nous avons trouvé un dataset\ [@DBLP_KammingaJMH19] provenant d'un prototype similaire qui prédisait le comportement d'un cheval, nous avons utilisé ces données pour créer un modèle de type MLP. Le but final étant de montrer qu'il est possible d'embarquer un modèle dans la puce pour directement effectuer les prédictions.
 
 Dans notre cas, nous avons utilisé les données d'un cheval. Nous avons ensuite entrainé le modèle et réussi à uploader les valeurs sur l'arduino à l'aide de MicroFlow. Par soucis de matériel il a été difficile d'entrainer ce modèle (temps et matériel) le dataset utilisé à donc été très réduit afin de pouvoir produire ce modèle "prototype" dans les temps.
-L'upload sur l'arduino fonctionne bien cependant les prédictions sont un peu étranges. Les valeurs peuvent peut-être varier en fonction de la sensibilité des accéléromètres et gyroscopes, mais nous n'avions également pas de cheval ni un collier assemblé à lui passer autours du cou afin de tester. Quand bien même, rien que la constitution du collier ou le cheval en question peuvent faire varier les données d'acceleromètre et gyroscope.
+
+L'upload sur l'arduino fonctionne bien cependant les prédictions sont un peu étranges. Les valeurs peuvent peut-être varier en fonction de la sensibilité des accéléromètres et gyroscopes, mais nous n'avions également pas de cheval ni un collier assemblé à lui passer autours du cou afin de tester. Quand bien même, rien que la constitution du collier ou le cheval en question peuvent faire varier les données d'accéleromètre et gyroscope.
+
 Ainsi, il est très difficile de vérifier que le modèle fonctionne correctement. Mais il est également difficile de prédire le comportement d'animaux du à tous ces élements.
 
 En bref, les modèles pour prédire le comportement des animaux sont prometteurs mais nous avions besoin de plus de matériel (Données, PCs, etc.) afin de pouvoir réaliser la tâche demandée.
-Par ailleurs, il est important de sous-ligner que si un modèle doit pouvoir prédire les différents comportemment des plusieurs animaux, la demande en données et matériel requis explose encore plus.
+Par ailleurs, il est important de souligner que si un modèle doit pouvoir prédire les différents comportements des plusieurs animaux, la demande en données et matériel requis explose encore plus.
 
 Concernant l'intégration du modèle de classification avec les autres composants, celle-ci n'a pas été effectué par manque de temps.
 
 #### Fonctionnement
 
-Tous les documents se trouvent dans le dossier "model". \
-Le model est entrainé dans le jupyter notebook "collar.ipynb". Ce notebook contient également de quoi générer 2 fichier,
-un fichier avec les informations de notre modèle (export pour MicroFlow) et un fichier de code arduino d'exemple ("model_parameters.cpp")
+Tous les documents se trouvent dans le dossier `model`. Le model est entrainé dans le jupyter notebook `collar.ipynb`. Ce notebook contient également de quoi générer 2 fichier,
+un fichier avec les informations de notre modèle (export pour MicroFlow) et un fichier de code arduino d'exemple (`model_parameters.cpp`)
 
-Les informations du modèle ont été copiés et collés dans le setup de notre code arduino ("arduino_code.ino").
+Les informations du modèle ont été copiés et collés dans le setup de notre code arduino (`arduino_code.ino`).
 
 # Conclusion et pour aller plus loin
 
