@@ -8,6 +8,7 @@ geometry: margin=2cm
 colorlinks: true
 link-citations: true
 toc: true
+bibliography: true
 header-includes:
     - \usepackage{bm}
     - \usepackage{xcolor}
@@ -85,29 +86,39 @@ Les messages sont directement envoyés chez Astrocast et sont accessibles direct
 
 ### Gestion de l'orientation du collier
 
-Notre première tentative pour définir l'orientation du collier était d'utiliser simplement le gyroscope. Nous nous somme ensuite rendu compte que le gyroscope ne permettait que d'avoir l'orientation entre 0 et 90 degrès, sauf que nous devions avoir une orientation sur 360 degrès.
+Notre première tentative pour définir l'orientation du collier était d'utiliser simplement le gyroscope. Nous nous somme ensuite rendu compte que le gyroscope ne permettait que d'avoir l'orientation entre 0 et 90 degrés, sauf que nous devions avoir une orientation sur 360 degrés.
 
-J'ai découvert qu'il était possible de calculer le roulis "roll" en utilisant les quaternions. Malheureusement, malgrès les différentes tentatives, nous sommes arrivés a rien de concluant.
+Nous avons découvert qu'il était possible de calculer le roulis "roll" en utilisant les quaternions. Malheureusement, malgrés les différentes tentatives, nous ne sommes pas arrivés à quelque chose de concluant.
 
-Nous avons donc décider d'utiliser le filtre de Madgwick. Madgwick est ce qu'on appelle un algorithme de fusion de capteurs (Fusion sensor algorithm). Ces algorithmes sont des techniques mathématiques qui combinent des données provenant de plusieurs capteurs afin de fournir une estimation plus précise et plus fiable de l'état d'un système ou d'un environnement.
+Nous avons donc décider d'utiliser le filtre de Madgwick. C'est un algorithme de fusion de capteurs (Fusion sensor algorithm). Ces algorithmes sont des techniques mathématiques qui combinent des données provenant de plusieurs capteurs afin de fournir une estimation plus précise et plus fiable de l'état d'un système ou d'un environnement.
 
 Le filtre de Madgwick utilise les données du gyroscope et de l'accéléromètre. Pour ce faire, il utilise la descente de gradient pour optimiser un quaternion qui oriente les données de l'accéléromètre par rapport à une référence connue de la gravité. Ce quaternion est pondéré et intégré au quaternion du gyroscope et à l'orientation précédente. Le résultat est normalisé et converti en angles d'Euler.
 
-Nous avons utiliser l'implémentation arduino officiel [librairie](https://github.com/arduino-libraries/MadgwickAHRS) de Madgwick qui s'occupe de faire les calculs pour nous et permet de récupérer le roulis, le lacet et le tanguages (roll,yaw,pitch).
+Nous avons utiliser l'implémentation arduino officiel ([librairie](https://github.com/arduino-libraries/MadgwickAHRS)) de Madgwick qui s'occupe de faire les calculs pour nous et permet de récupérer le roulis, le lacet et le tanguage (roll, yaw, pitch).
 
-Les caulcus qui se trouvent derrière sont extrêmemnt compliqués et nous n'avions clairement pas le temps d'étudier en détails le fonctionnement du filtre.
+Les calculs effectués derrière les décors sont complexes et nous nous attarderons pas dessus.
 
-Néanmoins, il est possible de lire le [papier scientifique](https://courses.cs.washington.edu/courses/cse474/17wi/labs/l4/madgwick_internal_report.pdf).
+Néanmoins, il est possible de lire le [papier](https://courses.cs.washington.edu/courses/cse474/17wi/labs/l4/madgwick_internal_report.pdf) sur ce filtre.
 
 
 ### Modèle de classification
 
 Nous avons découvert qu'il est possible de faire tourner des modèle de classification sur Arduino avec par exemple la librairie [MicroFlow](https://github.com/Bobingstern/MicroFlow).
 
-Il est donc tout a fait possible d'entraîner un modèle et ensuite le faire tourner sur un RP2040. Malheureusement, nous n'avions pas les données nécessaire pour entraîner un tel modèle. Nous n'avions pas non plus les connaissances nécessaire pour construire un dataset nous même et nous avons trouver que très peu de documentation en ligne sur la possibilité de prédire un comportement animal a partir des données d'un gyroscope et d'un accéléromètre.
+Il est donc tout a fait possible d'entraîner un modèle et ensuite le faire tourner sur un RP2040. 
+Malheureusement, nous n'avions pas les connaissances nécessaire pour construire un dataset nous même et nous avons trouver que très peu de documentation en ligne sur la possibilité de prédire un comportement animal a partir des données d'un gyroscope et d'un accéléromètre.
 
+Toutefois nous avons trouvé un dataset\ [@DBLP_KammingaJMH19] provenant d'un prototype similaire qui prédisait le comportement d'un cheval, nous avons utilisé ces données pour créer un modèle de type MLP. Le but final étant de monrter qu'il est possible d'embarquer un modèle dans la puce pour directement effectuer les prédictions.
 
+Concernant l'intégration du modèle de classification avec les autres composants, celle-ci n'a pas été effectué par manque de temps.
 
-# Conclusion
+# Conclusion et pour aller plus loin
 
-Nous sommes arriver a la conclusion qu'il était tout a fait possible de construire un collier qui respecte les contrainte qui nous ont été donné. Nous avons pu avoir un système qui arrive a connaître sa rotation et envoyer des données selon son orientation. 
+Nous sommes arrivés a la conclusion qu'il était tout a fait possible de construire un collier qui respecte les contrainte qui nous ont été donné. Nous avons pu avoir un système qui arrive a connaître sa rotation et envoyer des données selon son orientation. 
+
+Concernant le travail futur, dans les grandes lignes, il faut intégrer le modèle avec les autres composants, effectuer le montage des composants électroniques et calibrer les capteurs afin d'activer les bonnes antennes selon l'orientation.
+
+# Références
+
+::: {#refs}
+:::
